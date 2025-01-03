@@ -44,6 +44,7 @@ GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
 GOOGLE_DISCOVERY_URL = "https://accounts.google.com/.well-known/openid-configuration"
 client = WebApplicationClient(GOOGLE_CLIENT_ID)
 
+ALLOWED_EMAILS = os.getenv("ALLOWED_EMAILS", "").split(",")
 
 # Flask-Login helper to retrieve a user from our db
 @login_manager.user_loader
@@ -125,8 +126,10 @@ def callback():
         users_email = userinfo_response.json()["email"]
         picture = userinfo_response.json()["picture"]
         users_name = userinfo_response.json()["given_name"]
-    else:
-        return "User email not available or not verified by Google.", 400
+
+        # Check if the email is in the whitelist
+        if users_email not in ALLOWED_EMAILS:
+            return "You are not authorized to use this app.", 401
 
     # Create a user in your db with the information provided
     # by Google

@@ -12,6 +12,7 @@ services:
       - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
       - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
       - DATABASE_PATH=/data/tilas.db
+      - ALLOWED_EMAILS=${ALLOWED_EMAILS}
     volumes:
       - uv-cache:/root/.cache/uv
       - ${DB_VOLUME_PATH:-./data}:/data

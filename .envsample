@@ -6,3 +6,5 @@ GOOGLE_CLIENT_ID=
 
 # GOOGLE_CLIENT_SECRET: the client secret for the Google OAuth 2.0 application
 GOOGLE_CLIENT_SECRET=
+
+ALLOWED_EMAILS=user1@example.com,user2@example.com,user3@example.com
