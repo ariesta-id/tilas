@@ -23,8 +23,23 @@ from oauthlib.oauth2 import WebApplicationClient
 import requests
 import os
 
-# AI see the database setup
+
+class ProxiedRequest(requests.Request):
+    # https://stackoverflow.com/questions/19840051/mutating-request-base-url-in-flask
+    def __init__(self, environ, populate_request=True, shallow=False):
+        super(requests.Request, self).__init__(environ, populate_request, shallow)
+        # Support SSL termination. Mutate the host_url within Flask to use https://
+        # if the SSL was terminated.
+        x_forwarded_proto = self.headers.get("X-Forwarded-Proto")
+        if x_forwarded_proto == "https":
+            self.url = self.url.replace("http://", "https://")
+            self.host_url = self.host_url.replace("http://", "https://")
+            self.base_url = self.base_url.replace("http://", "https://")
+            self.url_root = self.url_root.replace("http://", "https://")
+
+
 app = Flask(__name__)
+app.request_class = ProxiedRequest
 db_path = os.path.expanduser(os.getenv("DATABASE_PATH", "~/tilas-instance/tilas.db"))
 print(f"Database location: {db_path}")
 os.makedirs(os.path.dirname(db_path), exist_ok=True)
@@ -45,6 +60,7 @@ GOOGLE_DISCOVERY_URL = "https://accounts.google.com/.well-known/openid-configura
 client = WebApplicationClient(GOOGLE_CLIENT_ID)
 
 ALLOWED_EMAILS = os.getenv("ALLOWED_EMAILS", "").split(",")
+
 
 # Flask-Login helper to retrieve a user from our db
 @login_manager.user_loader
