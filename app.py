@@ -159,4 +159,4 @@ if __name__ == "__main__":
     with app.app_context():
         db.create_all()
     # https://stackoverflow.com/questions/69561231/getting-insecure-transport-oauth-2-must-utilize-https-with-cert-managed-by-her
-    app.run(debug=True, host="0.0.0.0")
+    app.run(debug=os.getenv("DEBUG", "True").lower() == "true", host=os.getenv("HOST", "0.0.0.0"))
