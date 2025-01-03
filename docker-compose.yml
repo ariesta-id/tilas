@@ -15,7 +15,7 @@ services:
       - ALLOWED_EMAILS=${ALLOWED_EMAILS}
     volumes:
       - uv-cache:/root/.cache/uv
-      - ${DB_VOLUME_PATH:-./data}:/data
+      - ${DB_VOLUME_PATH}:/data
     ports:
       - "5000:5000"  # Only if your app needs port mapping
 
