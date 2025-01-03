@@ -13,6 +13,8 @@ services:
       - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
       - DATABASE_PATH=/data/tilas.db
       - ALLOWED_EMAILS=${ALLOWED_EMAILS}
+      - DEBUG=${DEBUG}
+      - HOST=${HOST}
     volumes:
       - uv-cache:/root/.cache/uv
       - ${DB_VOLUME_PATH}:/data
