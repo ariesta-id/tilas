@@ -1,0 +1,13 @@
+.git
+venv
+.venv/
+*.tmp
+.aider*
+.env
+instance/
+__pycache__/
+*.pyc
+tilas.db
+*.pem
+*.json
+.gitignore

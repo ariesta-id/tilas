@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      dockerfile: Dockerfile
+    working_dir: /app
+    environment:
+      - UV_COMPILE_BYTECODE=1
+      - UV_LINK_MODE=copy
+      - PYTHONUNBUFFERED=1  # Good for development logging
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - DATABASE_PATH=/data/tilas.db
+    volumes:
+      - uv-cache:/root/.cache/uv
+      - ${DB_VOLUME_PATH:-./data}:/data
+    ports:
+      - "5000:5000"  # Only if your app needs port mapping
+
+volumes:
+  uv-cache:

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tilas: Quick Note-Taking Web App</title>
+</head>
+<body>
+    <h1>Tilas: Quick Note-Taking Web App</h1>
+    {% if current_user.is_authenticated %}
+        <p>Hello, {{ current_user.name }}! You're logged in!</p>
+        <a href="{{ url_for('logout') }}">Logout</a>
+        <form method="post">
+            <textarea name="note" placeholder="Enter your note here..."></textarea>
+            <input type="submit" value="Save Note">
+        </form>
+        <h2>Notes</h2>
+        <ul>
+            {% for note in notes %}
+                <li>{{ note.note_content }} ({{ note.timestampdate }})</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <a href="{{ url_for('login') }}">Login with Google</a>
+    {% endif %}
+</body>
+</html>

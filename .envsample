@@ -1,0 +1,8 @@
+# SECRET_KEY: a secret key for the Flask application
+SECRET_KEY=
+
+# GOOGLE_CLIENT_ID: the client ID for the Google OAuth 2.0 application
+GOOGLE_CLIENT_ID=
+
+# GOOGLE_CLIENT_SECRET: the client secret for the Google OAuth 2.0 application
+GOOGLE_CLIENT_SECRET=

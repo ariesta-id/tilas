@@ -1,0 +1,15 @@
+[project]
+name = "tilas"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "flask",
+    "flask-login",
+    "flask-sqlalchemy",
+    "oauthlib",
+    "requests",
+]
+[tool.uv]
+exclude-newer = "2025-01-02T14:15:09Z"
