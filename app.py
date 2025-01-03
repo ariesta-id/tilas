@@ -20,26 +20,12 @@ from flask_login import (
 )
 from models import db, Note, User
 from oauthlib.oauth2 import WebApplicationClient
+from werkzeug.middleware.proxy_fix import ProxyFix
 import requests
 import os
 
-
-class ProxiedRequest(requests.Request):
-    # https://stackoverflow.com/questions/19840051/mutating-request-base-url-in-flask
-    def __init__(self, environ, populate_request=True, shallow=False):
-        super(requests.Request, self).__init__(environ, populate_request, shallow)
-        # Support SSL termination. Mutate the host_url within Flask to use https://
-        # if the SSL was terminated.
-        x_forwarded_proto = self.headers.get("X-Forwarded-Proto")
-        if x_forwarded_proto == "https":
-            self.url = self.url.replace("http://", "https://")
-            self.host_url = self.host_url.replace("http://", "https://")
-            self.base_url = self.base_url.replace("http://", "https://")
-            self.url_root = self.url_root.replace("http://", "https://")
-
-
 app = Flask(__name__)
-app.request_class = ProxiedRequest
+app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1)  # https://stackoverflow.com/a/23504684
 db_path = os.path.expanduser(os.getenv("DATABASE_PATH", "~/tilas-instance/tilas.db"))
 print(f"Database location: {db_path}")
 os.makedirs(os.path.dirname(db_path), exist_ok=True)
